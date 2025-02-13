@@ -1,0 +1,9 @@
+module.exports.Token = require('./token.model');
+module.exports.User = require('./user.model');
+module.exports.Driver = require('./driver.model');
+module.exports.Route = require('./route.model');
+module.exports.Bus = require('./bus.model');
+module.exports.ScheduledBus = require('./scheduledbus.model');
+module.exports.Manager = require('./manager.model');
+module.exports.Maintenance = require('./maintenance.model');
+module.exports.BusStop = require('./stops.model');
