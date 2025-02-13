@@ -17,14 +17,7 @@ const loginUserWithEmailAndPassword = async (email, password) => {
   console.log("Logging started...");
   const start = Date.now();
 
-  // Run all queries in parallel
-  const [user, manager, driver] = await Promise.all([
-    userService.getUserByEmail(email),
-    managerService.getManagerByEmail(email),
-    driverService.getDriverByEmail(email)
-  ]);
-
-  const foundUser = user || manager || driver;
+  const foundUser = await userService.getUserByEmail(email);
 
   if (!foundUser || !(await foundUser.isPasswordMatch(password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or password");

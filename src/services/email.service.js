@@ -1,6 +1,8 @@
 const nodemailer = require('nodemailer');
 const config = require('../config/config');
 const logger = require('../config/logger');
+const dotenv = require('dotenv')
+dotenv.config();
 
 const transport = nodemailer.createTransport(config.email.smtp);
 /* istanbul ignore next */
@@ -102,7 +104,7 @@ const sendWelcomeEmail = async (employeeEmail, password, name, role) => {
       <p><strong>Passowrd:</strong> ${password}</p>
       <br/>
       <br/>
-      <a href="${proccess.env.CLIENT}/${role.toLowerCase()}/home" class="button">Access Your Dashboard</a>
+      <a href="${process.env.CLIENT}/${role.toLowerCase()}/home" class="button">Access Your Dashboard</a>
     </div>  
     <div class="footer">
       <p>Need help? Contact us at <a href="mailto:support@tnstc-corp.com">support@tnstc-corp.com</a></p>

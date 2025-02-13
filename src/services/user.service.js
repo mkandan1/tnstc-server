@@ -2,7 +2,8 @@ const httpStatus = require('http-status');
 const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
 const managerService = require('./manager.service')
-const driverService = require('./driver.service')
+const driverService = require('./driver.service');
+const generatePassword = require('../utils/generate');
 
 /**
  * Create a user
@@ -13,6 +14,9 @@ const createUser = async (userBody) => {
   if (await User.isEmailTaken(userBody.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
+
+  const password = generatePassword();
+  userBody.password = password;
   return User.create(userBody);
 };
 

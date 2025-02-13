@@ -6,7 +6,7 @@ const auth = require('../../middlewares/auth');
 
 const router = express.Router();
 
-router.post('/add-employee', validate(authValidation.register), authController.addEmployee);
+router.post('/', authController.addEmployee);
 router.post('/login', validate(authValidation.login), authController.login);
 router.post('/logout', authController.logout);
 router.get('/refresh-tokens', authController.refreshTokens);

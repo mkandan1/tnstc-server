@@ -33,26 +33,46 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true,
       minlength: 8,
-      validate(value) {
-        if (!value.match(/\d/) || !value.match(/[a-zA-Z]/)) {
-          throw new Error('Password must contain at least one letter and one number');
-        }
-      },
       private: true, // used by the toJSON plugin
+    },
+    phoneNumber: {
+      type: String,
+      required: true,
+      unique: true,
+      minlength: 10,
     },
     role: {
       type: String,
-      enum: roles,
+      enum: ['driver', 'manager', 'admin'],
       default: 'driver',
     },
     isEmailVerified: {
       type: Boolean,
       default: false,
     },
-    phoneNumber: {
-      type: Number,
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
+    gender: {
+      type: String,
+      enum: ['Male', 'Female', 'Other'],
       required: true,
-      minlength: 10,
+    },
+    dateOfBirth: {
+      type: Date,
+      required: true,
+    },
+    address: {
+      type: String,
+    },
+    emergencyContact: {
+      name: String,
+      contactNumber: String,
     },
     profilePicture: {
       type: String,
@@ -68,69 +88,43 @@ const userSchema = mongoose.Schema(
         'viewProfile', 
         'updateProfile',
         'manageDrivers',
+        'manageManagers',
         'manageRoutes',
         'manageScheduleBus',
       ],
-      default: 
-      [
-        'viewRoute', 
-        'viewScheduledBus', 
-        'updateLocation', 
-        'viewAssignedBus', 
-        'viewProfile', 
-        'updateProfile',
-        'manageDrivers',
-        'managerManagers',
-        'manageRoutes',
-        'manageScheduleBus',
-      ],
+      default: function () {
+        return this.role === 'manager'
+          ? ['viewRoute', 'viewScheduledBus', 'updateLocation', 'viewAssignedBus', 'viewProfile', 'updateProfile', 'manageDrivers', 'manageRoutes', 'manageScheduleBus']
+          : ['viewRoute', 'viewScheduledBus', 'updateLocation', 'viewAssignedBus', 'viewProfile', 'updateProfile'];
+      },
     },
-    isBlocked: {
-      type: Boolean,
-      default: false,
-    }
   },
   {
     timestamps: true,
   }
 );
 
-// add plugin that converts mongoose to json
-userSchema.plugin(toJSON);
 userSchema.plugin(paginate);
 
-/**
- * Check if email is taken
- * @param {string} email - The user's email
- * @param {ObjectId} [excludeUserId] - The id of the user to be excluded
- * @returns {Promise<boolean>}
- */
+// Hash password before saving
+userSchema.pre('save', async function (next) {
+  if (this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password, 8);
+  }
+  next();
+});
+
+// Check if email is taken
 userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
   const user = await this.findOne({ email, _id: { $ne: excludeUserId } });
   return !!user;
 };
 
-/**
- * Check if password matches the user's password
- * @param {string} password
- * @returns {Promise<boolean>}
- */
+// Check if password matches
 userSchema.methods.isPasswordMatch = async function (password) {
-  const user = this;
-  return bcrypt.compare(password, user.password);
+  return bcrypt.compare(password, this.password);
 };
 
-userSchema.pre('save', async function (next) {
-  const user = this;
-  if (user.isModified('password')) {
-    user.password = await bcrypt.hash(user.password, 8);
-  }
-  next();
-});
-
-/**
- * @typedef User
- */
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
