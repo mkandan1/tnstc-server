@@ -1,6 +1,6 @@
-const httpStatus = require('http-status');
-const catchAsync = require('../utils/catchAsync');
-const { busService } = require('../services');
+import httpStatus from 'http-status';
+import catchAsync from '../utils/catchAsync.js';
+import { busService } from '../services/index.js';
 
 const getBuses = catchAsync(async (req, res) => {
   const buses = await busService.getBuses();
@@ -27,7 +27,7 @@ const deleteBus = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
-module.exports = {
+export default {
   getBuses,
   addBus,
   updateBus,

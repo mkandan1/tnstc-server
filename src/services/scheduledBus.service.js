@@ -1,5 +1,5 @@
-const { ScheduledBus } = require('../models');
-const ApiError = require('../utils/ApiError');
+import { ScheduledBus } from '../models/index.js';
+import ApiError from '../utils/ApiError.js';
 
 // Create a new scheduled bus
 const createScheduledBus = async (scheduledBusData) => {
@@ -100,7 +100,7 @@ const getBusLocation = async (scheduledBusId) => {
   }
 };
 
-module.exports = {
+export default {
   createScheduledBus,
   getAllScheduledBuses,
   getScheduledBusById,

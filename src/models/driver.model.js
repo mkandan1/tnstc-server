@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+import mongoose from 'mongoose';
 const { Schema } = mongoose;
+import bcrypt from 'bcryptjs'
 
 const driverSchema = new Schema(
   {
@@ -115,4 +115,4 @@ driverSchema.methods.isPasswordMatch = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-module.exports = mongoose.model('Driver', driverSchema);
+export default mongoose.model('Driver', driverSchema);

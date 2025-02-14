@@ -1,15 +1,12 @@
-const express = require('express');
-const validate = require('../../middlewares/validate');
-const { busStopValidation } = require('../../validations');
-const { busStopController } = require('../../controllers');
-const auth = require('../../middlewares/auth');
+import express from 'express';
+import { busStopController } from '../../controllers/index.js';
 
 const router = express.Router();
 
-router.post('/', auth('manageRoutes'), validate(busStopValidation.createBusStop), busStopController.addBusStop);
-router.get('/', auth('viewRoute'), busStopController.getBusStops);
-router.put('/:id', auth('manageRoutes'), validate(busStopValidation.updateBusStop), busStopController.updateBusStop);
-router.delete('/:id', auth('manageRoutes'), busStopController.deleteBusStop);
-router.get('/:id', auth('viewRoute'), busStopController.getBusStopById);
+router.post('/', busStopController.addBusStop);
+router.get('/', busStopController.getBusStops);
+router.put('/:id', busStopController.updateBusStop);
+router.delete('/:id', busStopController.deleteBusStop);
+router.get('/:id', busStopController.getBusStopById);
 
-module.exports = router;
+export default router;

@@ -1,5 +1,5 @@
-const { BusStop } = require('../models');
-const ApiError = require('../utils/ApiError');
+import { BusStop } from '../models/index.js';
+import ApiError from '../utils/ApiError.js';
 
 const getBusStops = async () => {
   return BusStop.find();
@@ -26,7 +26,7 @@ const deleteBusStop = async (id) => {
   if (!busStop) throw new ApiError(404, "Bus Stop not found");
 };
 
-module.exports = {
+export default {
   getBusStops,
   getBusStopById,
   addBusStop,

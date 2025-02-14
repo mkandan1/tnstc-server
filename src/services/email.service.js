@@ -1,7 +1,7 @@
-const nodemailer = require('nodemailer');
-const config = require('../config/config');
-const logger = require('../config/logger');
-const dotenv = require('dotenv')
+import nodemailer from 'nodemailer';
+import config from '../config/config.js';
+import logger from '../config/logger.js';
+import dotenv from 'dotenv';
 dotenv.config();
 
 const transport = nodemailer.createTransport(config.email.smtp);
@@ -183,7 +183,7 @@ If you did not create an account, then ignore this email.`;
   await sendEmail(to, subject, text);
 };
 
-module.exports = {
+export default {
   transport,
   sendEmail,
   sendWelcomeEmail,

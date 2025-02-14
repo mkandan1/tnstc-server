@@ -5,6 +5,7 @@
   "bin": "bin/createNodejsApp.js",
   "main": "src/index.js",
   "repository": "",
+  "type": "module",
   "author": "Manikandan P <manikandanpmail@gmail.com>",
   "license": "MIT",
   "engines": {

@@ -1,9 +1,10 @@
-const express = require('express')
+import express from 'express';
+import { maintenanceController } from '../../controllers/index.js';
+
 const router = express.Router();
-const { maintenanceController } = require('../../controllers')
 
 router.get('/status', maintenanceController.getMaintenanceStatus);
 
 router.post('/status', maintenanceController.setMaintenanceStatus);
 
-module.exports = router;
+export default router;

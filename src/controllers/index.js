@@ -1,8 +1,9 @@
-module.exports.authController = require('./auth.controller');
-module.exports.userController = require('./user.controller');
-module.exports.scheduledBusController = require('./scheduledBus.controller');
-module.exports.routeController = require('./route.controller');
-module.exports.driverController = require('./driver.controller');
-module.exports.busController = require('./bus.controller');
-module.exports.maintenanceController = require('./maintenance.controller');
-module.exports.busStopController = require('./stops.controller');
+export { default as authController } from './auth.controller.js';
+export { default as userController } from './user.controller.js';
+export { default as scheduledBusController } from './scheduledBus.controller.js';
+export { default as routeController } from './route.controller.js';
+export { default as driverController } from './driver.controller.js';
+export { default as busController } from './bus.controller.js';
+export { default as maintenanceController } from './maintenance.controller.js';
+export { default as busStopController } from './stops.controller.js';
+

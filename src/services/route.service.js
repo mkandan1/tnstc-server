@@ -1,5 +1,5 @@
-const { Route } = require('../models');
-const ApiError = require('../utils/ApiError');
+import { Route } from '../models/index.js';
+import ApiError from '../utils/ApiError.js';
 
 // Create a new route
 const createRoute = async (routeData) => {
@@ -65,7 +65,7 @@ const deleteRoute = async (id) => {
   }
 };
 
-module.exports = {
+export default {
   createRoute,
   getAllRoutes,
   getRouteById,

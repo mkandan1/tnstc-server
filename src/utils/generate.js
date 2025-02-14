@@ -10,4 +10,4 @@ const generatePassword = () => {
     return password;
 }
 
-module.exports = generatePassword
+export default generatePassword

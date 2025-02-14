@@ -1,6 +1,5 @@
-const catchAsync = require('../utils/catchAsync');
-const routeService = require('../services/route.service');
-const ApiError = require('../utils/ApiError');
+import catchAsync from '../utils/catchAsync.js';
+import { routeService } from '../services/index.js';
 
 // Create a new route
 const createRoute = catchAsync(async (req, res) => {
@@ -32,7 +31,7 @@ const deleteRoute = catchAsync(async (req, res) => {
   res.status(204).send();
 });
 
-module.exports = {
+export default {
   createRoute,
   getAllRoutes,
   getRouteById,

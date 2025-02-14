@@ -1,8 +1,7 @@
-const mongoose = require('mongoose');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
-const { toJSON, paginate } = require('./plugins');
-const { roles } = require('../config/roles');
+import mongoose from 'mongoose';
+import validator from 'validator'
+import bcrypt from 'bcryptjs'
+import {toJSON, paginate} from './plugins/index.js'
 
 const userSchema = mongoose.Schema(
   {
@@ -127,4 +126,4 @@ userSchema.methods.isPasswordMatch = async function (password) {
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+export default User;

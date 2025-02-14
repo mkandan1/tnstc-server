@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const scheduledBusSchema = new Schema(
@@ -45,4 +45,4 @@ const scheduledBusSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model('ScheduledBus', scheduledBusSchema);
+export default mongoose.model('ScheduledBus', scheduledBusSchema);

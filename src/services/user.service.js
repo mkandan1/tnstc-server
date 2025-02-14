@@ -1,9 +1,9 @@
-const httpStatus = require('http-status');
-const { User } = require('../models');
-const ApiError = require('../utils/ApiError');
-const managerService = require('./manager.service')
-const driverService = require('./driver.service');
-const generatePassword = require('../utils/generate');
+import httpStatus from 'http-status';
+import { User } from '../models/index.js';
+import ApiError from '../utils/ApiError.js';
+import managerService from './manager.service.js';
+import driverService from './driver.service.js';
+import generatePassword from '../utils/generate.js';
 
 /**
  * Create a user
@@ -98,7 +98,7 @@ const deleteUserById = async (userId) => {
   return user;
 };
 
-module.exports = {
+export default {
   createUser,
   queryUsers,
   getUserById,

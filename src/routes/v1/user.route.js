@@ -1,8 +1,5 @@
-const express = require('express');
-const auth = require('../../middlewares/auth');
-const validate = require('../../middlewares/validate');
-const userValidation = require('../../validations/user.validation');
-const userController = require('../../controllers/user.controller');
+import express from 'express';
+import { userController } from '../../controllers/index.js';
 
 const router = express.Router();
 
@@ -17,7 +14,7 @@ router
   .patch( userController.updateUser)
   .delete( userController.deleteUser);
 
-module.exports = router;
+export default router;
 
 /**
  * @swagger

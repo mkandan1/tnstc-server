@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const maintenanceSchema = new mongoose.Schema({
     isMaintenance: {
@@ -8,4 +8,4 @@ const maintenanceSchema = new mongoose.Schema({
   });
 
   
-module.exports = mongoose.model('Maintenance', maintenanceSchema);
+export default mongoose.model('Maintenance', maintenanceSchema);

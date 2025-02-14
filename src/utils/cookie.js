@@ -1,5 +1,5 @@
-const httpStatus = require('http-status');
-const ApiError = require('./ApiError')
+import httpStatus from 'http-status';
+import ApiError from '../utils/ApiError.js';
 
 const getCookieFromHeader = (req, cookieName) => {
     const cookieHeader = req.headers.cookie;
@@ -20,4 +20,4 @@ const getCookieFromHeader = (req, cookieName) => {
 };
 
 
-module.exports = getCookieFromHeader
+export default getCookieFromHeader

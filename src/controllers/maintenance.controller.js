@@ -1,4 +1,4 @@
-const { Maintenance } = require('../models')
+import { Maintenance } from '../models/index.js';
 
 const getMaintenanceStatus = async (req, res) => {
     try {
@@ -41,4 +41,5 @@ const setMaintenanceStatus = async (req, res) => {
     }
 };
 
-module.exports = { getMaintenanceStatus, setMaintenanceStatus, checkMaintenanceStatus };
+
+export default { getMaintenanceStatus, setMaintenanceStatus, checkMaintenanceStatus };
