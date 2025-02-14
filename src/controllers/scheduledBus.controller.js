@@ -1,5 +1,5 @@
-const catchAsync = require('../utils/catchAsync');
-const scheduledBusService = require('../services/scheduledBus.service');
+import catchAsync from '../utils/catchAsync.js';
+import { scheduledBusService } from '../services/index.js';
 
 // Create a new scheduled bus
 const createScheduledBus = catchAsync(async (req, res) => {
@@ -63,15 +63,12 @@ const getBusLocation = async (req, res) => {
   }
 };
 
-module.exports = {
-  updateBusLocation,
-  getBusLocation,
-};
-
-module.exports = {
+export default {
   createScheduledBus,
   getAllScheduledBuses,
   getScheduledBusById,
   updateScheduledBus,
   deleteScheduledBus,
+  updateBusLocation,
+  getBusLocation,
 };

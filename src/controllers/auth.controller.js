@@ -1,9 +1,9 @@
-const httpStatus = require('http-status');
-const catchAsync = require('../utils/catchAsync');
-const { authService, userService, tokenService, emailService } = require('../services');
-const config = require('../config/config');
-const getCookieFromHeader = require('../utils/cookie');
-const { sendLoginAlertEmail } = require('../services/email.service');
+import httpStatus from 'http-status';
+import catchAsync from '../utils/catchAsync.js';
+import { authService, userService, tokenService } from '../services/index.js';
+import config from '../config/config.js';
+import getCookieFromHeader from '../utils/cookie.js';
+import emailService from '../services/email.service.js';
 
 const addEmployee = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
@@ -19,7 +19,7 @@ const login = catchAsync(async (req, res) => {
   const ipAddress = req.ip;
   const device = req.headers['user-agent'];
   const time = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
-  await sendLoginAlertEmail(email, device, ipAddress, time);
+  await emailService.sendLoginAlertEmail(email, device, ipAddress, time);
   res.cookie('x-token', tokens.access.token, {
     secure: true,
     path: '/',
@@ -96,7 +96,7 @@ const verifyEmail = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
-module.exports = {
+export default {
   addEmployee,
   login,
   logout,

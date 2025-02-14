@@ -1,7 +1,7 @@
-const httpStatus = require('http-status');
-const catchAsync = require('../utils/catchAsync');
-const { driverService } = require('../services');
-const ApiError = require('../utils/ApiError');
+import httpStatus from 'http-status';
+import catchAsync from '../utils/catchAsync.js';
+import { driverService } from '../services/index.js';
+import ApiError from '../utils/ApiError.js';
 
 const addDriver = catchAsync(async (req, res) => {
   const driver = await driverService.createDriver(req.body);
@@ -41,7 +41,7 @@ const deleteDriver = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
-module.exports = {
+export default {
   addDriver,
   getDriver,
   getAllDrivers,

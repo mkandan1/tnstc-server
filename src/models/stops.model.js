@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const busStopSchema = new mongoose.Schema({
   name: { type: String, required: true, trim: true },
@@ -10,4 +10,4 @@ const busStopSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 const BusStop = mongoose.model('BusStop', busStopSchema);
-module.exports = BusStop;
+export default BusStop;

@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+import mongoose from 'mongoose';
 const { Schema } = mongoose;
+import bcrypt from 'bcryptjs'
 
 const managerSchema = new Schema(
   {
@@ -99,4 +99,4 @@ managerSchema.methods.isPasswordMatch = async function (password) {
 };
 
 
-module.exports = mongoose.model('Manager', managerSchema);
+export default mongoose.model('Manager', managerSchema);

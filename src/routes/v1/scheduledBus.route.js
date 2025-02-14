@@ -1,25 +1,22 @@
-const express = require('express');
-const validate = require('../../middlewares/validate');
-const { scheduledBusValidation } = require('../../validations');
-const { scheduledBusController } = require('../../controllers');
-const auth = require('../../middlewares/auth');
+import express from 'express';
+import { scheduledBusController } from '../../controllers/index.js';
 
 const router = express.Router();
 
 // POST route to create a new scheduled bus
-router.post('/add', auth('manageScheduleBus'), validate(scheduledBusValidation.createScheduledBus), scheduledBusController.createScheduledBus);
+router.post('/add', scheduledBusController.createScheduledBus);
 
 // GET route to fetch all scheduled buses
-router.get('/', auth('viewScheduledBus'), scheduledBusController.getAllScheduledBuses);
+router.get('/',  scheduledBusController.getAllScheduledBuses);
 
 // GET route to fetch a specific scheduled bus by ID
-router.get('/:id', auth('viewScheduledBus'), scheduledBusController.getScheduledBusById);
+router.get('/:id', scheduledBusController.getScheduledBusById);
 
 // PUT route to update a specific scheduled bus
-router.put('/:id', auth('manageScheduleBus'), validate(scheduledBusValidation.updateScheduledBus), scheduledBusController.updateScheduledBus);
+router.put('/:id', scheduledBusController.updateScheduledBus);
 
 // DELETE route to delete a specific scheduled bus
-router.delete('/:id', auth('manageScheduleBus'), scheduledBusController.deleteScheduledBus);
+router.delete('/:id', scheduledBusController.deleteScheduledBus);
 
 // POST route to update the bus location
 // router.post('/update-location/:id', auth('updateLocation'), scheduledBusController.updateBusLocation);
@@ -28,4 +25,4 @@ router.delete('/:id', auth('manageScheduleBus'), scheduledBusController.deleteSc
 // router.get('/location/:id', auth('viewScheduledBus'), scheduledBusController.getBusLocation);
 
 
-module.exports = router;
+export default router;

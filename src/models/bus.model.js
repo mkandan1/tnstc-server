@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const busSchema = new Schema(
   {
-    busNumber : {
+    busNumber: {
       type: String,
-      required: true
+      required: true,
     },
     isAc: {
       type: Boolean,
@@ -102,4 +102,4 @@ const busSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model('Bus', busSchema);
+export default mongoose.model('Bus', busSchema);

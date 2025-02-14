@@ -1,11 +1,10 @@
-const httpStatus = require('http-status');
-const tokenService = require('./token.service');
-const userService = require('./user.service')
-const managerService = require('./manager.service')
-const driverService = require('./driver.service')
-const Token = require('../models/token.model');
-const ApiError = require('../utils/ApiError');
-const { tokenTypes } = require('../config/tokens');
+import httpStatus from 'http-status';
+import tokenService from './token.service.js';
+import userService from './user.service.js';
+import Token from '../models/token.model.js';
+import ApiError from '../utils/ApiError.js';
+import { tokenTypes } from '../config/tokens.js';
+
 
 /**
  * Login with username and password
@@ -106,7 +105,7 @@ const getUserByToken = async (token) => {
   return user;
 };
 
-module.exports = {
+export default {
   loginUserWithEmailAndPassword,
   logout,
   refreshAuth,

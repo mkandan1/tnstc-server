@@ -1,5 +1,5 @@
-const Bus = require('../models/bus.model');
-const ApiError = require('../utils/ApiError');
+import Bus from '../models/bus.model.js';
+import ApiError from '../utils/ApiError.js';
 
 const getBuses = async () => {
   return Bus.find();
@@ -29,7 +29,7 @@ const deleteBus = async (busId) => {
   }
 };
 
-module.exports = {
+export default {
   getBuses,
   addBus,
   updateBus,

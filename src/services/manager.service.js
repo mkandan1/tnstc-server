@@ -1,9 +1,8 @@
-const bcrypt = require('bcryptjs');
-const { Manager } = require('../models');
-const ApiError = require('../utils/ApiError');
-const tokenService = require('./token.service');
-const generatePassword = require('../utils/generate');
-const { sendWelcomeEmail } = require('./email.service');
+import bcrypt from 'bcryptjs';
+import { Manager } from '../models/index.js';
+import ApiError from '../utils/ApiError.js';
+import generatePassword from '../utils/generate.js';
+import emailService from './email.service.js'
 
 // Login manager
 const loginManager = async (email, password) => {
@@ -27,7 +26,7 @@ const createManager = async (managerBody) => {
   const password = generatePassword();
   managerBody.password = password
   const manager = await Manager.create(managerBody);
-  sendWelcomeEmail(managerBody.email, password, managerBody.firstName, 'Manager')
+  emailService.sendWelcomeEmail(managerBody.email, password, managerBody.firstName, 'Manager')
   return manager;
 };
 
@@ -78,7 +77,7 @@ const loginManagerWithEmailAndPassword = async (email, password) => {
   return driver;
 };
 
-module.exports = {
+export default {
   createManager,
   getManagerById,
   updateManager,

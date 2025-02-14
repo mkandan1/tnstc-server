@@ -1,15 +1,14 @@
-const express = require('express');
-const authRoute = require('./auth.route');
-const userRoute = require('./user.route');
-const busRoute = require('./bus.route');
-const routeRoute = require('./route.route');
-const driverRoute = require('./driver.route');
-const scheduledBusRoute = require('./scheduledBus.route');
-const maintenanceRoute = require('./maintenance.route');
-const managerRoute = require('./manager.route');
-const busStopsRoute = require('./stops.route');
-const docsRoute = require('./docs.route');
-const config = require('../../config/config');
+import express from 'express';
+import authRoute from './auth.route.js';
+import userRoute from './user.route.js';
+import busRoute from './bus.route.js';
+import routeRoute from './route.route.js';
+import driverRoute from './driver.route.js';
+import scheduledBusRoute from './scheduledBus.route.js';
+import maintenanceRoute from './maintenance.route.js';
+import busStopsRoute from './stops.route.js';
+import docsRoute from './docs.route.js';
+import config from '../../config/config.js';
 
 const router = express.Router();
 
@@ -33,10 +32,6 @@ const defaultRoutes = [
   {
     path: '/drivers',
     route: driverRoute, // New route for drivers
-  },
-  {
-    path: '/managers',
-    route: managerRoute, // New route for drivers
   },
   {
     path: '/bus-stops',
@@ -70,5 +65,4 @@ if (config.env === 'development') {
     router.use(route.path, route.route);
   });
 }
-
-module.exports = router;
+export default router;

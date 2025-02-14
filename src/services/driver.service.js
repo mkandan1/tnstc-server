@@ -1,14 +1,13 @@
-const { Driver } = require('../models');
-const generatePassword = require('../utils/generate');
-const { sendWelcomeEmail } = require('./email.service');
-const bcrypt = require('bcryptjs')
+import { Driver } from '../models/index.js';
+import generatePassword from '../utils/generate.js';
+import emailService from './email.service.js';
 
 const createDriver = async (driverData) => {
   const password = generatePassword();
   driverData.password = password;
   const driver = await Driver.create(driverData);
 
-  sendWelcomeEmail(driverData.email, password, driverData.firstName, 'Driver')
+  emailService.sendWelcomeEmail(driverData.email, password, driverData.firstName, 'Driver')
   return driver;
 };
 
@@ -43,7 +42,7 @@ const deleteDriver = async (id) => {
  * @returns {Promise<Driver>}
  */
 
-module.exports = {
+export default {
   createDriver,
   getDriverById,
   getAllDrivers,
