@@ -21,6 +21,7 @@ const login = catchAsync(async (req, res) => {
   const time = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
   await emailService.sendLoginAlertEmail(email, device, ipAddress, time);
   res.cookie('x-token', tokens.access.token, {
+    sameSite: "none",
     secure: true,
     path: '/',
     expires: new Date(Date.now() + config.jwt.accessExpirationMinutes * 60 * 60)
@@ -28,6 +29,7 @@ const login = catchAsync(async (req, res) => {
 
   res.cookie('rfs-token', tokens.refresh.token, {
     httpOnly: true,
+    sameSite: "none",
     secure: true,
     path: '/',
     expires: new Date(Date.now() + config.jwt.refreshExpirationDays * 24 * 60 * 60 * 1000)
