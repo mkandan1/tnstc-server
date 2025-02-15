@@ -42,13 +42,6 @@ const queryUsers = async (filter, options) => {
 const getUserById = async (id) => {
   let user = await User.findById(id).select('-password');
 
-  if (!user) {
-    user = await managerService.getManagerById(id);
-  }
-
-  if (!user) {
-    user = await driverService.getDriverById(id);
-  }
 
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found in any collection');
@@ -62,7 +55,8 @@ const getUserById = async (id) => {
  * @returns {Promise<User>}
  */
 const getUserByEmail = async (email) => {
-  return await User.findOne({ email });
+  console.log("Email ID received at getUserByEmail")
+  return User.findOne({ email });
 };
 
 /**

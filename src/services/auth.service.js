@@ -15,8 +15,9 @@ import { tokenTypes } from '../config/tokens.js';
 const loginUserWithEmailAndPassword = async (email, password) => {
   console.log("Logging started...");
   const start = Date.now();
-
+  console.log("Email: ", email, " Password: ", password);
   const foundUser = await userService.getUserByEmail(email);
+  console.log("User found for the email");
 
   if (!foundUser || !(await foundUser.isPasswordMatch(password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or password");
