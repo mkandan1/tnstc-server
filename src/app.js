@@ -13,9 +13,10 @@ import { authLimiter } from './middlewares/rateLimiter.js';
 import routes from './routes/v1/index.js';
 import { errorConverter, errorHandler } from './middlewares/error.js';
 import ApiError from './utils/ApiError.js';
-
+import dotenv from 'dotenv';
 
 const app = express();
+dotenv.config();
 
 if (config.env !== 'test') {
   app.use(morgan.successHandler);
