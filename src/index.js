@@ -1,17 +1,30 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 import app from './app.js';
 import config from './config/config.js';
 import logger from './config/logger.js';
 
-let server;
-mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
-  logger.info('Connected to MongoDB');
-  server = app.listen(config.port, () => {
-    logger.info(`Listening to port ${config.port}`);
-    logger.warn("Safely develop this server")
-  });
-});
+let isConnected = false; // Ensure MongoDB only connects once
+let server = null;
 
+// Function to connect to MongoDB
+async function connectDB() {
+  if (!isConnected) {
+    await mongoose.connect(config.mongoose.url, config.mongoose.options);
+    logger.info('Connected to MongoDB');
+    isConnected = true;
+  }
+}
+
+// Local development: Start Express server
+if (process.env.NODE_ENV !== 'vercel') {
+  connectDB().then(() => {
+    server = app.listen(config.port, () => {
+      logger.info(`Listening on port ${config.port}`);
+    });
+  });
+}
+
+// Graceful shutdown handlers
 const exitHandler = () => {
   if (server) {
     server.close(() => {
@@ -30,7 +43,6 @@ const unexpectedErrorHandler = (error) => {
 
 process.on('uncaughtException', unexpectedErrorHandler);
 process.on('unhandledRejection', unexpectedErrorHandler);
-
 process.on('SIGTERM', () => {
   logger.info('SIGTERM received');
   if (server) {
@@ -38,4 +50,8 @@ process.on('SIGTERM', () => {
   }
 });
 
-export default server;
+// ✅ Vercel: Export a request handler instead of app.listen()
+export default async function handler(req, res) {
+  await connectDB();
+  return app(req, res);
+}
