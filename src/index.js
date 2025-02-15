@@ -1,30 +1,16 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 import app from './app.js';
 import config from './config/config.js';
 import logger from './config/logger.js';
 
-const mongooseOptions = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 11000, // Timeout after 5 seconds instead of waiting indefinitely
-  socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-  maxPoolSize: 10, // Maintain up to 10 connections in the pool
-};
-
 let server;
-
-mongoose
-  .connect(config.mongoose.url, mongooseOptions)
-  .then(() => {
-    logger.info('Connected to MongoDB');
-    server = app.listen(config.port, () => {
-      logger.info(`Listening to port ${config.port}`);
-    });
-  })
-  .catch((error) => {
-    logger.error('MongoDB connection error:', error);
-    process.exit(1);
+mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
+  logger.info('Connected to MongoDB');
+  server = app.listen(config.port, () => {
+    logger.info(`Listening to port ${config.port}`);
+    logger.warn("Safely develop this server")
   });
+});
 
 const exitHandler = () => {
   if (server) {
