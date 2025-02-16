@@ -3,10 +3,10 @@ import { busController } from '../../controllers/index.js';
 
 const router = express.Router();
 
-router.post('/add-bus', busController.addBus);
-router.get('/get-bus/:id', busController.getBus);
-router.get('/get-all-buses', busController.getBuses);
-router.put('/update-bus/:id', busController.updateBus);
-router.delete('/delete-bus/:id', busController.deleteBus);
+router.post('/', busController.addBus);
+router.get('/', busController.getBuses);
+router.put('/:id', busController.updateBus);
+router.delete('/:id', busController.deleteBus);
+router.get('/:id', busController.getBus);
 
 export default router;

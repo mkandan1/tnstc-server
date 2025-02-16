@@ -23,32 +23,31 @@ const defaultRoutes = [
   },
   {
     path: '/buses',
-    route: busRoute, // New route for buses
+    route: busRoute,
   },
   {
     path: '/routes',
-    route: routeRoute, // New route for routes
+    route: routeRoute,
   },
   {
     path: '/drivers',
-    route: driverRoute, // New route for drivers
+    route: driverRoute,
   },
   {
     path: '/bus-stops',
-    route: busStopsRoute, // New route for drivers
+    route: busStopsRoute,
   },
   {
     path: '/scheduled-buses',
-    route: scheduledBusRoute, // New route for scheduled buses
+    route: scheduledBusRoute,
   },
   {
     path: '/maintenance',
-    route: maintenanceRoute, // New route for scheduled buses
+    route: maintenanceRoute,
   },
 ];
 
 const devRoutes = [
-  // routes available only in development mode
   {
     path: '/docs',
     route: docsRoute,
