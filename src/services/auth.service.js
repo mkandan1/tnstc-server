@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 import tokenService from './token.service.js';
 import userService from './user.service.js';
-import Token from '../models/token.model.js';
+import { Token } from '../models/index.js';
 import ApiError from '../utils/ApiError.js';
 import { tokenTypes } from '../config/tokens.js';
 
@@ -39,8 +39,11 @@ const logout = async (refreshToken) => {
   if (!refreshTokenDoc) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Not found');
   }
-  await refreshTokenDoc.remove();
+  
+  // Use deleteOne instead of remove
+  await Token.deleteOne({ token: refreshToken, type: tokenTypes.REFRESH, blacklisted: false });
 };
+
 
 /**
  * Refresh auth tokens
