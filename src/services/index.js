@@ -8,3 +8,4 @@ export { default as driverService } from './driver.service.js';
 export { default as busService } from './bus.service.js';
 export { default as managerService } from './manager.service.js';
 export { default as busStopService } from './stops.service.js';
+export { default as statisticsService } from './statistics.service.js';

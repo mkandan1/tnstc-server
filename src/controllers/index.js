@@ -6,4 +6,5 @@ export { default as driverController } from './driver.controller.js';
 export { default as busController } from './bus.controller.js';
 export { default as maintenanceController } from './maintenance.controller.js';
 export { default as busStopController } from './stops.controller.js';
+export { default as statisticsController } from './statistics.controller.js';
 

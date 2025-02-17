@@ -11,7 +11,7 @@ router
 router
   .route('/:userId')
   .get( userController.getUser)
-  .patch( userController.updateUser)
+  .put( userController.updateUser)
   .delete( userController.deleteUser);
 
 export default router;

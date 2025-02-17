@@ -16,7 +16,7 @@ const createScheduledBus = async (scheduledBusData) => {
 const getAllScheduledBuses = async () => {
   try {
     return await ScheduledBus.find()
-      .populate('driver') // Populate the driver information
+      .populate('driver')
       .populate('route') // Populate the route information
       .populate('bus'); // Populate the bus information
   } catch (error) {
@@ -62,7 +62,7 @@ const deleteScheduledBus = async (id) => {
     }
     return scheduledBus;
   } catch (error) {
-    throw new ApiError(500, 'Error deleting scheduled bus');
+    throw new ApiError(500, `Error deleting scheduled bus [${error.message}]`);
   }
 };
 

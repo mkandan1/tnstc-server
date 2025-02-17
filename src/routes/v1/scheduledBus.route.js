@@ -4,7 +4,7 @@ import { scheduledBusController } from '../../controllers/index.js';
 const router = express.Router();
 
 // POST route to create a new scheduled bus
-router.post('/add', scheduledBusController.createScheduledBus);
+router.post('/', scheduledBusController.createScheduledBus);
 
 // GET route to fetch all scheduled buses
 router.get('/',  scheduledBusController.getAllScheduledBuses);

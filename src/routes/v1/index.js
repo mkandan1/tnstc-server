@@ -8,6 +8,7 @@ import scheduledBusRoute from './scheduledBus.route.js';
 import maintenanceRoute from './maintenance.route.js';
 import busStopsRoute from './stops.route.js';
 import docsRoute from './docs.route.js';
+import statisticsRoute from './statistics.route.js';
 import config from '../../config/config.js';
 
 const router = express.Router();
@@ -44,6 +45,11 @@ const defaultRoutes = [
   {
     path: '/maintenance',
     route: maintenanceRoute,
+  },
+  
+  {
+    path: '/statistics',
+    route: statisticsRoute,
   },
 ];
 

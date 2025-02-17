@@ -10,7 +10,7 @@ const scheduledBusSchema = new Schema(
     },
     driver: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Driver',
+      ref: 'User',
       required: true,
     },
     route: {
@@ -30,10 +30,6 @@ const scheduledBusSchema = new Schema(
     comments: {
       type: String,
       default: '',
-    },
-    travelTimeEstimate: {
-      type: Number,
-      default: 0,
     },
     realTimeTracking: {
       type: Boolean,

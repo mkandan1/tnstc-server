@@ -3,6 +3,7 @@ import pick from '../utils/pick.js';
 import ApiError from '../utils/ApiError.js';
 import catchAsync from '../utils/catchAsync.js';
 import { userService } from '../services/index.js';
+import getCookieFromHeader from '../utils/cookie.js';
 
 const createUser = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
@@ -39,5 +40,5 @@ export default {
   getUsers,
   getUser,
   updateUser,
-  deleteUser,
+  deleteUser
 };
