@@ -11,7 +11,6 @@ const createScheduledBus = catchAsync(async (req, res) => {
 const getAllScheduledBuses = catchAsync(async (req, res) => {
   // Log the filter query from the request
   const filter = pick(req.query, ['driver', 'status']);
-  console.log('Filter:', filter);
   const { busStop } = req.query;
 
   // Options for pagination and data population
