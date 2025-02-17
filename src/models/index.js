@@ -7,3 +7,4 @@ export { default as ScheduledBus } from './scheduledbus.model.js';
 export { default as Manager } from './manager.model.js';
 export { default as Maintenance } from './maintenance.model.js';
 export { default as BusStop } from './stops.model.js';
+export { default as AnonymousUser } from './anonymousUser.model.js';

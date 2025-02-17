@@ -44,6 +44,12 @@ const logout = async (refreshToken) => {
   await Token.deleteOne({ token: refreshToken, type: tokenTypes.REFRESH, blacklisted: false });
 };
 
+const createAnonymousUser = async () => {
+  const anonymousUser = new AnonymousUser();
+  await anonymousUser.save();
+  return anonymousUser;
+};
+
 
 /**
  * Refresh auth tokens
@@ -115,5 +121,6 @@ export default {
   refreshAuth,
   resetPassword,
   verifyEmail,
-  getUserByToken
+  getUserByToken,
+  createAnonymousUser
 };

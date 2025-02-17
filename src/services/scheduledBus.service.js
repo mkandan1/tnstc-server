@@ -53,6 +53,11 @@ const updateScheduledBus = async (id, updateData) => {
   }
 };
 
+const querySchedules = async (filter, options) => {
+  const schedules = await ScheduledBus.paginate(filter, options)
+  return schedules
+}
+
 // Delete a scheduled bus
 const deleteScheduledBus = async (id) => {
   try {
@@ -103,6 +108,7 @@ const getBusLocation = async (scheduledBusId) => {
 export default {
   createScheduledBus,
   getAllScheduledBuses,
+  querySchedules,
   getScheduledBusById,
   updateScheduledBus,
   deleteScheduledBus,

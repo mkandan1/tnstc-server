@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { paginate } from './plugins/index.js';
 const { Schema } = mongoose;
 
 const scheduledBusSchema = new Schema(
@@ -31,6 +32,18 @@ const scheduledBusSchema = new Schema(
       type: String,
       default: '',
     },
+    location: {
+      latitude: {
+        type: Number,
+        min: -90,
+        max: 90,
+      },
+      longitude: {
+        type: Number,
+        min: -180,
+        max: 180,
+      },
+    },
     realTimeTracking: {
       type: Boolean,
       default: true,
@@ -40,5 +53,7 @@ const scheduledBusSchema = new Schema(
     timestamps: true,
   }
 );
+
+scheduledBusSchema.plugin(paginate);
 
 export default mongoose.model('ScheduledBus', scheduledBusSchema);
