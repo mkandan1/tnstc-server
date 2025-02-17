@@ -10,28 +10,23 @@ const createScheduledBus = catchAsync(async (req, res) => {
 
 const getAllScheduledBuses = catchAsync(async (req, res) => {
   // Log the filter query from the request
-  const filter = pick(req.query, ['driver', 'status']);
-  const { busStop } = req.query;
+  const filter = pick(req.query, ['driver']);
+  const { busStop, status } = req.query;
 
   // Options for pagination and data population
   const options = {
     page: 1,
     limit: 10,
     sortBy: 'createdAt:asc',
-    populate: 'driver,route,bus,route.stops.stopId', // Populate stops correctly
+    populate: 'driver,route,bus,route.stops.stopId', // Ensure stops are populated correctly
   };
 
   let schedules = await scheduledBusService.querySchedules(filter, options);
 
 
-  // Apply filter for busStop if provided
-  if (busStop) {
 
-    // Filter by status: only include 'Scheduled' or 'On Route'
-    schedules = schedules.results.filter(schedule =>
-      schedule.status === 'Scheduled' || schedule.status === 'On Route'
-    );
-    schedules = schedules.filter((schedule) => {
+  if (busStop) {
+    schedules = schedules.results.filter((schedule) => {
       const stopMatches = schedule.route.stops.some((stop) =>
         stop.stopId._id.toString() === busStop
       );
@@ -39,8 +34,12 @@ const getAllScheduledBuses = catchAsync(async (req, res) => {
     });
   }
 
+  if (status && status.length > 0) {
+    schedules = schedules.filter((schedule) => status.includes(schedule.status));
+  }
+
   if (schedules.length === 0) {
-    console.log('No scheduled buses found for the provided bus stop.');
+    console.log('No scheduled buses found for the provided bus stop or status.');
   }
 
   res.send(schedules);
