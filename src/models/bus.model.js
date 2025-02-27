@@ -7,6 +7,14 @@ const busSchema = new Schema(
       type: String,
       required: true,
     },
+    busName: {
+      type: String,
+      required: true
+    },
+    busImage: {
+      type: String,
+      default: 'https://tnstc.s3.ap-south-1.amazonaws.com/uploads/buses/default.jpg'
+    },
     isAc: {
       type: Boolean,
       default: false,

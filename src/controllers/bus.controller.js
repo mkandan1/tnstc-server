@@ -11,11 +11,21 @@ const getBus = catchAsync(async (req, res)=> {
   const bus = await busService.getBusById(req.params.id);
   res.status(httpStatus.OK).send({ bus });
 })
-
 const addBus = catchAsync(async (req, res) => {
-  const bus = await busService.addBus(req.body);
+  let busData = req.body;
+
+  if (req.file) {
+    busData.file = req.file;
+  }
+
+  if (!busData.busImage || busData.busImage === "null") {
+    delete busData.busImage;
+  }
+
+  const bus = await busService.addBus(busData);
   res.status(httpStatus.CREATED).send({ bus });
 });
+
 
 const updateBus = catchAsync(async (req, res) => {
   const bus = await busService.updateBus(req.params.id, req.body);
