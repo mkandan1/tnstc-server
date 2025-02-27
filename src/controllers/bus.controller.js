@@ -11,6 +11,7 @@ const getBus = catchAsync(async (req, res)=> {
   const bus = await busService.getBusById(req.params.id);
   res.status(httpStatus.OK).send({ bus });
 })
+
 const addBus = catchAsync(async (req, res) => {
   let busData = req.body;
 
@@ -28,6 +29,7 @@ const addBus = catchAsync(async (req, res) => {
 
 
 const updateBus = catchAsync(async (req, res) => {
+  delete req.body.busImage
   const bus = await busService.updateBus(req.params.id, req.body);
   res.status(httpStatus.OK).send({ bus });
 });
