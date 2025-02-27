@@ -92,6 +92,7 @@ const completeRide = catchAsync(async (req, res) => {
   }
 
   scheduledBus.status = 'Completed';
+  scheduledBus.location = { latitude: null, longitude: null }
   await scheduledBus.save();
 
   res.status(200).send(scheduledBus);
