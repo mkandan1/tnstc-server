@@ -128,7 +128,7 @@ const updateBusLocation = async (scheduledBusId, latitude, longitude) => {
       // Calculate speed
       const speed = calculateSpeed(prevLat, prevLng, prevTimestamp, latitude, longitude);
 
-      const completionPercentage = ((newDistanceTravelled * 1000) / route.totalDistance * 100).toFixed(2);
+      const completionPercentage = ((newDistanceTravelled * 100) / route.totalDistance * 100).toFixed(2);
 
       const updateFields = {
           'location.latitude': latitude,
