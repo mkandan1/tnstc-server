@@ -37,6 +37,10 @@ const routeSchema = new Schema(
           type: Number,
           required: true,
         },
+        distanceFromOrigin: {
+          type: Number,
+          required: true
+        }
       },
     ],
     routeType: {

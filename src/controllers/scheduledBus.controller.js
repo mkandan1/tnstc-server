@@ -1,6 +1,9 @@
 import catchAsync from '../utils/catchAsync.js';
 import { scheduledBusService } from '../services/index.js';
 import pick from '../utils/pick.js';
+import { calculateScheduledArrival } from '../utils/time.js';
+import { Route } from '../models/index.js';
+import ApiError from '../utils/ApiError.js';
 
 // Create a new scheduled bus
 const createScheduledBus = catchAsync(async (req, res) => {
@@ -66,16 +69,23 @@ const deleteScheduledBus = catchAsync(async (req, res) => {
 
 // Controller for starting the ride
 const startRide = catchAsync(async (req, res) => {
-  const { latitude, longitude } = req.body;
+  const { latitude, longitude, routeId } = req.body;
   const { id } = req.params;
+  console.log(routeId)
+  const route = await Route.findById(routeId);
+  if (!route) {
+    throw new ApiError(404, 'Route not found');
+  }
 
   const scheduledBus = await scheduledBusService.getScheduledBusById(id);
   if (!scheduledBus) {
     return res.status(404).send({ message: 'Scheduled bus not found' });
   }
-
+  const actualTime = new Date();
   scheduledBus.status = 'On Route';
-
+  const estimatedArrivalTime = calculateScheduledArrival(actualTime, route.totalDistance)
+  scheduledBus.estimatedArrivalTime = estimatedArrivalTime
+  scheduledBus.actualTime = actualTime
   // Update the location of the bus
   scheduledBus.location = { latitude, longitude };
   await scheduledBus.save();

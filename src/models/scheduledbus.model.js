@@ -23,6 +23,24 @@ const scheduledBusSchema = new Schema(
       type: Date,
       required: true,
     },
+    actualTime: {
+      type: Date,
+    },
+    scheduledArrivalTime: {
+      type: Date,
+    },
+    estimatedArrivalTime: {
+      type: Date
+    },
+    distanceTraveled: {
+      type: Number
+    },
+    distanceRemaining: {
+      type: Number
+    },
+    speed: {
+      type: Number,
+    },
     status: {
       type: String,
       enum: ['Scheduled', 'On Route', 'Completed', 'Cancelled'],
@@ -43,6 +61,9 @@ const scheduledBusSchema = new Schema(
         min: -180,
         max: 180,
       },
+      lastUpdated: {
+        type: Date
+      }
     },
     realTimeTracking: {
       type: Boolean,

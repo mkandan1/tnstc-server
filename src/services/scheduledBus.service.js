@@ -1,9 +1,18 @@
-import { ScheduledBus } from '../models/index.js';
+import { ScheduledBus, Route } from '../models/index.js';
 import ApiError from '../utils/ApiError.js';
+import { calculateScheduledArrival, calculateSpeed } from '../utils/time.js'
 
 // Create a new scheduled bus
 const createScheduledBus = async (scheduledBusData) => {
   try {
+    const route = await Route.findById(scheduledBusData.route);
+    if (!route) {
+      throw new ApiError(404, 'Route not found');
+    }
+
+    const totalDistance = route.totalDistance;
+    const scheduledArrivalTime = calculateScheduledArrival(scheduledBusData.scheduleTime, totalDistance)
+    scheduledBusData.scheduledArrivalTime = scheduledArrivalTime
     const scheduledBus = new ScheduledBus(scheduledBusData);
     await scheduledBus.save();
     return scheduledBus;
@@ -54,9 +63,17 @@ const updateScheduledBus = async (id, updateData) => {
 };
 
 const querySchedules = async (filter, options) => {
-  const schedules = await ScheduledBus.paginate(filter, options)
-  return schedules
-}
+  // Query schedules using pagination
+  let schedules = await ScheduledBus.paginate(filter, options);
+
+  // Populate origin and destination after querying
+  schedules.results = await ScheduledBus.populate(schedules.results, {
+    path: 'route.origin route.destination',
+    model: 'BusStop', // Ensure 'BusStop' matches your Mongoose model name
+  });
+
+  return schedules;
+};
 
 // Delete a scheduled bus
 const deleteScheduledBus = async (id) => {
@@ -71,27 +88,72 @@ const deleteScheduledBus = async (id) => {
   }
 };
 
+const haversineDistance = (lat1, lon1, lat2, lon2) => {
+  const toRad = (angle) => (Math.PI / 180) * angle;
+  const R = 6371; // Radius of Earth in km
+
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // Distance in km
+};
+
 const updateBusLocation = async (scheduledBusId, latitude, longitude) => {
   try {
-    const scheduledBus = await ScheduledBus.findByIdAndUpdate(
-      scheduledBusId,
-      {
-        $set: {
+      // Fetch last location & timestamp from DB
+      const scheduledBus = await ScheduledBus.findById(scheduledBusId).populate('route');
+      if (!scheduledBus) throw new Error('Scheduled bus not found');
+
+      const { location, distanceTravelled = 0, route } = scheduledBus;
+      if (!route) throw new Error('Route not found');
+
+      const prevLat = location?.latitude;
+      const prevLng = location?.longitude;
+      const prevTimestamp = location.lastUpdated ? new Date(location.lastUpdated).getTime() : null;
+
+      // Calculate distance traveled since last update
+      let distanceIncrement = 0;
+      if (prevLat && prevLng) {
+          distanceIncrement = haversineDistance(prevLat, prevLng, latitude, longitude);
+      }
+
+      const newDistanceTravelled = distanceTravelled + distanceIncrement;
+      const remainingDistance = Math.max(route.totalDistance - newDistanceTravelled, 0); // Avoid negative values
+
+      // Calculate speed
+      const speed = calculateSpeed(prevLat, prevLng, prevTimestamp, latitude, longitude);
+
+      const updateFields = {
           'location.latitude': latitude,
           'location.longitude': longitude,
-          lastUpdated: Date.now(),
-        },
-      },
-      { new: true }
-    );
-    if (!scheduledBus) {
-      throw new Error('Scheduled bus not found');
-    }
-    return scheduledBus;
+          'location.lastUpdated': new Date(),
+          distanceTraveled: newDistanceTravelled,
+          distanceRemaining: remainingDistance
+      };
+
+      if (speed !== null) {
+          updateFields.speed = speed; // Store speed in DB
+      }
+
+      const updatedBus = await ScheduledBus.findByIdAndUpdate(
+          scheduledBusId,
+          { $set: updateFields },
+          { new: true }
+      );
+
+      return updatedBus;
   } catch (error) {
-    throw new Error('Error updating bus location');
+      console.error("Error updating bus location:", error);
+      throw new Error('Error updating bus location');
   }
 };
+
+
 
 const getBusLocation = async (scheduledBusId) => {
   try {

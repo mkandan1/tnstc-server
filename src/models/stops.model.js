@@ -6,8 +6,12 @@ const busStopSchema = new mongoose.Schema({
     lat: { type: Number, required: true },
     lng: { type: Number, required: true }
   },
+  code: {
+    type: String,
+    required: true,
+  },
   active: { type: Boolean, default: true }
-}, {timestamps: true});
+}, { timestamps: true });
 
 const BusStop = mongoose.model('BusStop', busStopSchema);
 export default BusStop;
