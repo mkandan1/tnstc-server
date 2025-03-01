@@ -132,8 +132,8 @@ const updateBusLocation = async (scheduledBusId, latitude, longitude) => {
           'location.latitude': latitude,
           'location.longitude': longitude,
           'location.lastUpdated': new Date(),
-          distanceTraveled: newDistanceTravelled,
-          distanceRemaining: remainingDistance
+          distanceTraveled: newDistanceTravelled.toFixed(2),
+          distanceRemaining: remainingDistance.toFixed(2)
       };
 
       if (speed !== null) {
