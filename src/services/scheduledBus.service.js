@@ -128,12 +128,16 @@ const updateBusLocation = async (scheduledBusId, latitude, longitude) => {
       // Calculate speed
       const speed = calculateSpeed(prevLat, prevLng, prevTimestamp, latitude, longitude);
 
+      // Calculate journey completion percentage
+      const completionPercentage = ((newDistanceTravelled / route.totalDistance) * 100).toFixed(2);
+
       const updateFields = {
           'location.latitude': latitude,
           'location.longitude': longitude,
           'location.lastUpdated': new Date(),
           distanceTraveled: newDistanceTravelled.toFixed(2),
-          distanceRemaining: remainingDistance.toFixed(2)
+          distanceRemaining: remainingDistance.toFixed(2),
+          journeyCompletion: completionPercentage // Store completion percentage in DB
       };
 
       if (speed !== null) {
@@ -152,6 +156,7 @@ const updateBusLocation = async (scheduledBusId, latitude, longitude) => {
       throw new Error('Error updating bus location');
   }
 };
+
 
 
 

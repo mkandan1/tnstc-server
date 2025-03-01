@@ -41,6 +41,9 @@ const scheduledBusSchema = new Schema(
     speed: {
       type: Number,
     },
+    journeyCompletion: {
+      type: Number
+    },
     status: {
       type: String,
       enum: ['Scheduled', 'On Route', 'Completed', 'Cancelled'],
