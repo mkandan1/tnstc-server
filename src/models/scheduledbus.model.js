@@ -33,16 +33,20 @@ const scheduledBusSchema = new Schema(
       type: Date
     },
     distanceTraveled: {
-      type: Number
+      type: Number,
+      default: 0,
     },
     distanceRemaining: {
-      type: Number
+      type: Number,
+      default: 0,
     },
     speed: {
       type: Number,
+      default: 0,
     },
     journeyCompletion: {
-      type: Number
+      type: Number,
+      default: 0,
     },
     status: {
       type: String,
