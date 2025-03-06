@@ -9,9 +9,11 @@ const busStopSchema = new mongoose.Schema({
   code: {
     type: String,
     required: true,
+    unique: true,
   },
   active: { type: Boolean, default: true }
 }, { timestamps: true });
 
 const BusStop = mongoose.model('BusStop', busStopSchema);
+BusStop.syncIndexes();
 export default BusStop;
